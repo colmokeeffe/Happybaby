@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:elevation="24dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:textSize="20sp"
+            tools:text="12:59pm"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dateTextView"
+            android:layout_alignParentStart="true"
+            app:layout_constraintTop_toBottomOf="@+id/dateTextView"
+            android:textSize="20sp"
+            tools:text="12:59pm"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/activityCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.048"
+            app:layout_constraintStart_toEndOf="@+id/dateTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="A Category" />
+
+        <TextView
+            android:id="@+id/activityDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toEndOf="@+id/dateTextView"
+            app:layout_constraintTop_toBottomOf="@id/activityCategory"
+            tools:text="A Description" />
+
+
+        <RatingBar
+            android:id="@+id/cardActivityRating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:theme="@style/Widget.AppCompat.RatingBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/activityDescription"/>
+
+
+        <ImageView
+            android:id="@+id/imagepriority"
+            android:layout_width="38dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            android:layout_toEndOf="@id/activityCategory"
+            app:layout_constraintBottom_toTopOf="@+id/activityDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.984"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/icon_priority" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

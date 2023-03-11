@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_home"
+        android:title="@string/menu_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_map"
+        android:icon="@android:drawable/ic_menu_gallery"
+        android:title="@string/menu_gallery"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/item_add"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="@string/menu_addReminder"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_share"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="@string/menu_share"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_logout"
+        android:icon="@android:drawable/ic_menu_revert"
+        android:title="@string/menu_exit"
+        app:showAsAction="always" />
+</menu>

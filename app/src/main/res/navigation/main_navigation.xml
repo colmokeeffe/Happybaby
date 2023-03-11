@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/activityListFragment">
+
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="ie.wit.happybaby.views.activity.ActivityGalleryPresenter"
+        android:label="activity"
+        tools:layout="@layout/activity_activity" >
+        <action
+            android:id="@+id/action_activityFragment_to_activityListFragment"
+            app:destination="@id/activityListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityListFragment"
+        android:name="ie.wit.happybaby.views.activitylist.ActivityListPresenter"
+        android:label="activity list"
+        tools:layout="@layout/activity_activity_list" >
+        <action
+            android:id="@+id/action_activityListFragment_to_activityFragment"
+            app:destination="@id/activityFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_activityListFragment_to_activityMapFragment"
+            app:destination="@id/activityMapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="ie.wit.happybaby.views.editlocation.EditLocationPresenter"
+        android:label="Edit Location"
+        tools:layout="@layout/activity_activity_maps" />
+    <fragment
+        android:id="@+id/activityMapFragment"
+        android:name="ie.wit.happybaby.views.activitiesmap.ActivitiesMapPresenter"
+        android:label="Activity Map"
+        tools:layout="@layout/content_activity_maps" >
+        <action
+            android:id="@+id/action_activityMapFragment_to_activityListFragment"
+            app:destination="@id/activityListFragment" />
+        <argument
+            android:name="activityid"
+            app:argType="string" />
+    </fragment>
+</navigation>

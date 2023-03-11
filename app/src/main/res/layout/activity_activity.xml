@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.activity.ActivityView">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:fitsSystemWindows="true"
+        app:elevation="0dip"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleTextColor="@color/colorPrimary" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/addActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:paddingBottom="8dp"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:text="@string/add_activity_header"
+            android:textColor="@color/colorPrimary"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/addActivity"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <DatePicker
+                    android:id="@+id/datePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:datePickerMode="calendar"/>
+
+                <TextView
+                    android:id="@+id/dateTextViewDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Date of Activity:"
+                    android:textSize="20sp"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/dateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    tools:text="12:59pm"
+                    tools:ignore="MissingConstraints" />
+
+
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:calendarViewShown="false"
+                    android:theme="@style/MyTimePicker"
+                    android:timePickerMode="spinner" />
+
+                <TextView
+                    android:id="@+id/timeTextViewDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Time of Activity:"
+                    android:textSize="20sp"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/timeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    tools:text="12:59pm"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center"
+                    android:text="@string/activity_category_header"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <HorizontalScrollView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:scrollbars="none"
+                    >
+                <RadioGroup
+                    android:id="@+id/activityCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+
+                    <RadioButton
+                        android:id="@+id/option_pee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/option_see" />
+
+                    <RadioButton
+                        android:id="@+id/option_poo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="@string/option_do" />
+
+                    <RadioButton
+                        android:id="@+id/option_feed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="@string/option_eat" />
+
+
+                    <RadioButton
+                        android:id="@+id/option_medication"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="@string/option_medication" />
+
+
+
+                    <RadioButton
+                        android:id="@+id/option_exercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="@string/option_exercise" />
+                </RadioGroup>
+                </HorizontalScrollView>
+
+
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_activityDescription"
+                    android:inputType="text"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="30"
+                    android:padding="8dp"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/activityDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:maxLength="30" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                <TextView
+                    android:id="@+id/rating_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center"
+                    android:text="@string/activity_rating_header"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <RatingBar
+                    android:id="@+id/activityRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:numStars="5"
+                    android:stepSize="0.5"
+                    android:theme="@style/Widget.AppCompat.RatingBar" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_priority"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/checkbox_priority" />
+
+                <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@color/colorSecondary"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:stateListAnimator="@null"
+                    android:text="@string/button_addActivity"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
