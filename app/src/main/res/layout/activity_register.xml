@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/travel_2" />
+        app:srcCompat="@drawable/img" />
 
     <TextView
         android:id="@+id/registerMessage"
@@ -26,6 +26,7 @@
         android:text="@string/register_message"
         android:textAlignment="center"
         android:textColor="@color/textColor"
+        android:fontFamily="@font/handlee"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +76,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="64dp"
         android:text="@string/button_register"
+        android:textStyle="bold"
+        android:fontFamily="@font/handlee"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

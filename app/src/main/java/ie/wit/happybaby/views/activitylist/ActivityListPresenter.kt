@@ -3,30 +3,45 @@ package ie.wit.happybaby.views.activitylist
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import com.google.firebase.auth.FirebaseAuth
 import ie.wit.happybaby.R
+import ie.wit.happybaby.helpers.exportToCSV
 
 import ie.wit.happybaby.main.MainApp
+import ie.wit.happybaby.models.ActivityFireStore
 import ie.wit.happybaby.models.ActivityModel
 import ie.wit.happybaby.views.activity.ActivityView
+import ie.wit.happybaby.views.activitygallery.ActivityGalleryView
+import ie.wit.happybaby.views.activitygallerylist.ActivityGalleryListView
 import ie.wit.happybaby.views.login.LoginView
+import ie.wit.happybaby.views.reminder.ReminderView
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ActivityListPresenter (private val view: ActivityListView) {
+class ActivityListPresenter(private val view: ActivityListView) {
 
     var app: MainApp
     private lateinit var refreshIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var loginIntentLauncher : ActivityResultLauncher<Intent>
+    var fireStore: ActivityFireStore? = null
+    private lateinit var activityIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var registerIntentLauncher : ActivityResultLauncher<Intent>
+
 
     init {
         app = view.application as MainApp
         registerRefreshCallback()
-        registerMapCallback()
         registerLoginCallback()
+        registerActivityCallback()
+
+        if (app.activities is ActivityFireStore) {
+            fireStore = app.activities as ActivityFireStore
+        }
+
     }
 
     fun doAddActivity() {
@@ -34,6 +49,51 @@ class ActivityListPresenter (private val view: ActivityListView) {
         refreshIntentLauncher.launch(launcherIntent)
     }
 
+    fun doListActivity() {
+        val launcherIntent = Intent(view, ActivityListView::class.java)
+        refreshIntentLauncher.launch(launcherIntent)
+    }
+
+    fun doAddImageActivity() {
+        val launcherIntent = Intent(view, ActivityGalleryListView::class.java)
+        activityIntentLauncher.launch(launcherIntent)
+            }
+
+    fun doAddReminderActivity() {
+        val launcherIntent = Intent(view, ReminderView::class.java)
+        activityIntentLauncher.launch(launcherIntent)
+    }
+
+
+
+    fun doAddImageGalleryActivity() {
+        val launcherIntent = Intent(view, ActivityGalleryView::class.java)
+        refreshIntentLauncher.launch(launcherIntent)
+    }
+
+
+    fun doExport(){
+        GlobalScope.launch(Dispatchers.Main){
+            val activities = fireStore!!.activities
+            if (activities != null){
+            val fileOut = exportToCSV(
+                "Happy_Baby.csv",
+                view.getExternalFilesDir(null),
+                "Date,Time,Category,Description,Mood(1-5)\n", activities
+            )
+            val uri = FileProvider.getUriForFile(
+                view,
+                "ie.wit.happybaby.file_provider",
+                fileOut
+            )
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.putExtra(Intent.EXTRA_STREAM, uri)
+            sendIntent.flags =
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            sendIntent.type = "text/csv"
+            view.startActivity(Intent.createChooser(sendIntent, "SHARE"))
+        }
+    }}
 
 
     fun doEditActivity(activity: ActivityModel) {
@@ -44,11 +104,12 @@ class ActivityListPresenter (private val view: ActivityListView) {
 
     suspend fun doSearch(query: String, checkedChip: Int) {
         var chipCategory = when (checkedChip) {
-            R.id.chip_option_see -> "Pee"
-            R.id.chip_option_do -> "Poop"
-            R.id.chip_option_eat -> "Feed"
+            R.id.chip_option_pee -> "Pee"
+            R.id.chip_option_poo -> "Poop"
+            R.id.chip_option_feed -> "Feed"
             R.id.chip_option_exercise -> "Exercise"
             R.id.chip_option_medication -> "Medication"
+            R.id.chip_option_priority -> "High Priority"
             else -> "All"
         }
         val filteredlist: MutableList<ActivityModel> = mutableListOf()
@@ -57,7 +118,6 @@ class ActivityListPresenter (private val view: ActivityListView) {
         for (item in activities) {
             if (item.description.lowercase().contains(query.lowercase())) {
                 filteredlist.add(item)
-                // i("item added to list")
             }
         }
         view.showActivities(filteredlist)
@@ -65,9 +125,9 @@ class ActivityListPresenter (private val view: ActivityListView) {
 
     suspend fun doChipChange(selectedChip: Int) {
         var chipCategory = when (selectedChip) {
-            R.id.chip_option_see -> "Pee"
-            R.id.chip_option_do -> "Poop"
-            R.id.chip_option_eat -> "Feed"
+            R.id.chip_option_pee -> "Pee"
+            R.id.chip_option_poo -> "Poop"
+            R.id.chip_option_feed -> "Feed"
             R.id.chip_option_exercise -> "Exercise"
             R.id.chip_option_medication -> "Medication"
             R.id.chip_option_priority -> "High Priority"
@@ -116,6 +176,7 @@ class ActivityListPresenter (private val view: ActivityListView) {
     }
     
     suspend fun getActivities() = app.activities.findAll()
+    suspend fun getGalleries() = app.galleries.findAllGalleries()
 
     suspend fun doLogout() {
         FirebaseAuth.getInstance().signOut()
@@ -138,11 +199,7 @@ class ActivityListPresenter (private val view: ActivityListView) {
                 }
             }
     }
-    private fun registerMapCallback() {
-        mapIntentLauncher =
-            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            {  }
-    }
+
 
     private fun registerLoginCallback() {
         loginIntentLauncher =
@@ -150,4 +207,12 @@ class ActivityListPresenter (private val view: ActivityListView) {
             {  }
 
     }
+
+    private fun registerActivityCallback() {
+        activityIntentLauncher =
+            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            {  }
+    }
+
+
 }

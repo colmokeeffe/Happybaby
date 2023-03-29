@@ -26,13 +26,8 @@ class ActivityMemStore: ActivityStore {
         var foundActivity: ActivityModel? = activities.find { t -> t.id == activity.id }
         if (foundActivity != null) {
             foundActivity.title = activity.title
-            foundActivity. description = activity.description
-            foundActivity.location = activity.location
-            foundActivity.image = activity.image
+            foundActivity.description = activity.description
             foundActivity.category = activity.category
-            foundActivity.lat = activity.lat
-            foundActivity.lng = activity.lng
-            foundActivity.zoom = activity.zoom
             foundActivity.rating = activity.rating
             foundActivity.priority = activity.priority
             logAll()
@@ -52,16 +47,16 @@ class ActivityMemStore: ActivityStore {
             "all" -> {
                 filteredlist = activities
             }
-            "Thing to do" -> {
-                filteredlist = activities.filter { it.category == "Thing to do" } as MutableList<ActivityModel>
+            "Poop" -> {
+                filteredlist = activities.filter { it.category == "Poop" } as MutableList<ActivityModel>
             }
 
-            "Sight to see" -> {
-                filteredlist = activities.filter { it.category == "Sight to see" } as MutableList<ActivityModel>
+            "Pee" -> {
+                filteredlist = activities.filter { it.category == "Pee" } as MutableList<ActivityModel>
             }
 
-            "Food to eat" -> {
-                filteredlist = activities.filter { it.category == "Food to eat" } as MutableList<ActivityModel>
+            "Feed" -> {
+                filteredlist = activities.filter { it.category == "Feed" } as MutableList<ActivityModel>
             }
             "High Priority" -> {
                 filteredlist = activities.filter { it.priority } as MutableList<ActivityModel>

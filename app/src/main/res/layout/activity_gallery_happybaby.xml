@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.activitygallery.ActivityGalleryView">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/handlee"
+        android:background="@color/colorPrimaryDark"
+        android:fitsSystemWindows="true"
+        app:elevation="0dip"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleTextColor="@color/colorPrimary"
+            android:fontFamily="@font/handlee"
+            />
+    </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/addActivityImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/handlee"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/add_image"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/addActivityImage"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    app:counterEnabled="true"
+                    app:counterMaxLength="20"
+                    android:hint="Image Title"
+                    android:inputType="text"
+                    android:layout_marginTop="50dp"
+                    android:padding="8dp"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/imageTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:inputType="textCapSentences"
+                        android:maxLength="20"
+                        android:maxLines="1"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Image Description"
+                    android:inputType="text"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="30"
+                    android:padding="8dp"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/imageDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:inputType="textCapSentences"
+                        android:maxLength="30" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/chooseImage"
+                        android:layout_width="168dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/button_addImage"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/handlee"
+                        android:background="@drawable/rounded_corner"
+                        android:textColor="@color/colorPrimary"
+                        app:backgroundTint="@null"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/activityImage"
+                    android:layout_width="230dp"
+                    android:layout_height="230dp"
+                    app:srcCompat="@drawable/img" />
+
+                <TextView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center"
+                    android:text="Category"
+                    android:fontFamily="@font/handlee"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <RadioGroup
+                    android:id="@+id/imageCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/option_newborn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/option_newborn" />
+
+
+                    <RadioButton
+                        android:id="@+id/option_threeToSix"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="@string/option_3_6" />
+
+                    <RadioButton
+                        android:id="@+id/option_sixToNine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="@string/option_6_9" />
+
+                    <RadioButton
+                        android:id="@+id/option_nineToTwelve"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="@string/option_9_12" />
+                </RadioGroup>
+
+
+                <CheckBox
+                    android:id="@+id/checkbox_favourite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/handlee"
+                    android:text="@string/checkbox_favourite" />
+
+                <Button
+                    android:id="@+id/btnAddImage"
+                    android:layout_width="168dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/rounded_corner"                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:stateListAnimator="@null"
+                    android:text="@string/button_saveImage"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/handlee"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    app:backgroundTint="@null"/>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

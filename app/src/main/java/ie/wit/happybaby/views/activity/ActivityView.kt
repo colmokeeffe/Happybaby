@@ -1,9 +1,10 @@
 package ie.wit.happybaby.views.activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TimePicker.OnTimeChangedListener
 import androidx.appcompat.app.AppCompatActivity
 import ie.wit.happybaby.R
 import ie.wit.happybaby.databinding.ActivityActivityBinding
@@ -12,8 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber.i
-import android.widget.DatePicker
-import android.widget.DatePicker.OnDateChangedListener
+
 
 
 class ActivityView : AppCompatActivity() {
@@ -21,23 +21,18 @@ class ActivityView : AppCompatActivity() {
     private lateinit var binding: ActivityActivityBinding
     lateinit var presenter: ActivityPresenter
     var activity = ActivityModel()
+    private lateinit var activityList: List<ActivityModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbarAdd.title = title
+        binding.toolbarAdd.setTitleTextAppearance(this, R.style.toolbarFont)
         setSupportActionBar(binding.toolbarAdd)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-
-
         presenter = ActivityPresenter(this)
-
-
-
-
-
         i("Activity Activity started..")
 
         binding.timePicker.setOnTimeChangedListener { _, hourOfDay, minute -> // Convert the selected time to a formatted string
@@ -71,33 +66,49 @@ class ActivityView : AppCompatActivity() {
 
 
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_activity, menu)
-        val deleteMenu: MenuItem = menu.findItem(R.id.item_delete)
-        if (presenter.edit){
-            deleteMenu.setVisible(true)
-        }
-        else{
-            deleteMenu.setVisible(false)
-        }
-        return super.onCreateOptionsMenu(menu)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_cancel -> {
                 presenter.doCancel()
             }
+            R.id.item_share -> {
+                    presenter.doShare(toString(), toString())
+            }
             R.id.item_delete -> {
-                GlobalScope.launch(Dispatchers.IO) {
-                    presenter.doDelete()
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Are you sure?")
+                builder.setMessage("Do you want to delete this activity?")
+                builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+                    GlobalScope.launch(Dispatchers.IO) {
+                        presenter.doDelete()
+                    }
                 }
+                builder.setNegativeButton("No", { dialogInterface: DialogInterface, i: Int -> })
+                builder.show()
+
             }
             android.R.id.home -> {
                 presenter.doHome()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_activity, menu)
+        val deleteMenu: MenuItem = menu.findItem(R.id.item_delete)
+        val shareMenu: MenuItem = menu.findItem(R.id.item_share)
+        if (presenter.edit){
+            deleteMenu.setVisible(true)
+            shareMenu.setVisible(true)
+        }
+        else{
+            deleteMenu.setVisible(false)
+            shareMenu.setVisible(false)
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 
     fun showActivity(activity: ActivityModel) {
@@ -116,6 +127,7 @@ class ActivityView : AppCompatActivity() {
 
         binding.activityCategory.check(categoryId)
     }
+
 
 
     fun showEditView() {

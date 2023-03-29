@@ -16,8 +16,12 @@
 
     <style name="MyTimePicker" >
         <!-- Text color -->
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@color/teal_200</item>
         <!-- Divider color -->
         <item name="colorControlNormal">@color/teal_200</item>
+    </style>
+    <style name="toolbarFont" >
+        <item name="android:fontFamily" >@font/handlee</item>
+        <item name="android:textAppearanceLarge">@font/handlee</item>
     </style>
 </resources>

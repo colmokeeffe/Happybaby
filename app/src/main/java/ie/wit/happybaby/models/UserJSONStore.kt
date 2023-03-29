@@ -1,4 +1,4 @@
-package ie.wit.happybaby.models
+/*package ie.wit.happybaby.models
 
 import android.content.Context
 import com.google.gson.*
@@ -65,5 +65,5 @@ class UserJSONStore(private val context: Context) : UserStore {
         users.forEach { i("$it") }
     }
 }
-
+*/
 

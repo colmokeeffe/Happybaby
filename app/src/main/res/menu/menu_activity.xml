@@ -12,4 +12,10 @@
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:title="@string/menu_cancelActivity"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/item_share"
+        android:icon="@android:drawable/ic_menu_share"
+        android:visible="false"
+        android:title="@string/menu_shareActivity"
+        app:showAsAction="always"/>
 </menu>

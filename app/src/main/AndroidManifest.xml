@@ -2,49 +2,76 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
-        android:name="ie.wit.happybaby.main.MainApp"
+        android:name=".main.MainApp"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:appCategory="audio"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/img_icon_small"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/img_icon_small"
         android:supportsRtl="true"
         android:theme="@style/Theme.Happybaby"
-        tools:targetApi="31">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="31"
+
+        >
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.file_provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
         <activity
             android:name=".views.splash.SplashScreenView"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".views.register.RegisterView"
-            android:exported="true" >
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".views.login.LoginView"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBsQg72LUouY6MpDLQHh0tbZyZmMcq2u8o" />
-
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
 
         <activity
-            android:name=".views.activitylist.ActivityListView"
+            android:name=".views.activitygallery.ActivityGalleryView"
             android:exported="true" />
         <activity
             android:name=".views.activity.ActivityView"
+            android:exported="true"></activity>
+        <activity
+            android:name=".views.activitylist.ActivityListView"
+            android:exported="true"
+
+
+
+            />
+        <activity
+            android:name=".views.activitygallerylist.ActivityGalleryListView"
+            android:exported="true" />
+        <activity
+            android:name=".views.reminder.ReminderView"
             android:exported="true" />
     </application>
 

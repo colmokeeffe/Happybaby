@@ -11,6 +11,7 @@ import kotlinx.parcelize.Parcelize
 data class ActivityModel(@PrimaryKey(autoGenerate = true)
                          var id: Long = 0,
                          var fbId: String = "",
+                         var title: String = "",
                          var priority: Boolean = false,
                          var category: String = "N/A",
                          var description: String = "",
@@ -22,5 +23,6 @@ data class ActivityModel(@PrimaryKey(autoGenerate = true)
                          var hour: Int = 0,
                          var minute: Int = 0,
                          var rating: Float = 0f) : Parcelable
+
 
 

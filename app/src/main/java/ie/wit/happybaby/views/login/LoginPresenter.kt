@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import ie.wit.happybaby.views.register.RegisterView
 import ie.wit.happybaby.main.MainApp
 import ie.wit.happybaby.models.ActivityFireStore
+import ie.wit.happybaby.views.activitygallerylist.ActivityGalleryListView
 import ie.wit.happybaby.views.activitylist.ActivityListView
 
 class LoginPresenter(private val view: LoginView) {
@@ -35,6 +36,8 @@ class LoginPresenter(private val view: LoginView) {
                         val launcherIntent = Intent(view, ActivityListView::class.java)
                         activityIntentLauncher.launch(launcherIntent)
                     }
+
+
             } else {
                     view.hideProgress()
                     val launcherIntent = Intent(view, ActivityListView::class.java)
@@ -48,9 +51,10 @@ class LoginPresenter(private val view: LoginView) {
         }
     }
 
-    fun doRegister() {
-        val launcherIntent = Intent(view, RegisterView::class.java)
-        registerIntentLauncher.launch(launcherIntent)
+    private fun registerRegisterCallback() {
+        registerIntentLauncher =
+            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            {  }
     }
 
     private fun registerActivityCallback() {
@@ -58,10 +62,11 @@ class LoginPresenter(private val view: LoginView) {
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             {  }
     }
-    private fun registerRegisterCallback() {
-        registerIntentLauncher =
-            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            {  }
+
+
+    fun doRegister() {
+        val launcherIntent = Intent(view, RegisterView::class.java)
+        registerIntentLauncher.launch(launcherIntent)
     }
 
 }

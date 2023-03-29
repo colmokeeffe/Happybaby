@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import ie.wit.happybaby.databinding.CardActivityBinding
 import ie.wit.happybaby.models.ActivityModel
 
@@ -34,6 +33,7 @@ class ActivityAdapter constructor(private var activities: MutableList<ActivityMo
         activities.removeAt(position)
         notifyItemRemoved(position)
     }
+
 
     class MainHolder(private val binding : CardActivityBinding) :
         RecyclerView.ViewHolder(binding.root) {

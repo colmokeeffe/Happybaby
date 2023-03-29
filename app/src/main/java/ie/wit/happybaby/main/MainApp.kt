@@ -12,6 +12,8 @@ class MainApp : Application() {
     // val users = UserMemStore()
     // lateinit var users: UserStore
 
+    lateinit var galleries: ActivityStore
+
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
@@ -21,6 +23,7 @@ class MainApp : Application() {
         //activities = ActivityMemStore()
         // activities = ActivityStoreRoom(applicationContext)
         activities = ActivityFireStore(applicationContext)
+        galleries = ActivityFireStore(applicationContext)
         val sharedPreferences = getSharedPreferences("save", MODE_PRIVATE)
         if (sharedPreferences.getBoolean("value", true)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

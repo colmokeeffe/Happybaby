@@ -1,48 +1,40 @@
-package ie.wit.happybaby.views.activitylist
+package ie.wit.happybaby.views.activitygallerylist
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.firebase.auth.FirebaseAuth
 import ie.wit.happybaby.R
-import ie.wit.happybaby.adapters.ActivityAdapter
-import ie.wit.happybaby.adapters.ActivityListener
-import ie.wit.happybaby.databinding.ActivityActivityListBinding
+import ie.wit.happybaby.adapters.ActivityGalleryAdapter
+import ie.wit.happybaby.adapters.ImageListener
+import ie.wit.happybaby.databinding.ActivityGalleryListBinding
 import ie.wit.happybaby.helpers.SwipeToDeleteCallback
 import ie.wit.happybaby.main.MainApp
 import ie.wit.happybaby.models.ActivityFireStore
 import ie.wit.happybaby.models.ActivityGalleryModel
-import ie.wit.happybaby.models.ActivityModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber.i
-import java.util.*
 
 
-class ActivityListView : AppCompatActivity(), ActivityListener {
+class ActivityGalleryListView: AppCompatActivity(), ImageListener {
 
     lateinit var app: MainApp
-    lateinit var presenter: ActivityListPresenter
-    lateinit var bottomNav : BottomNavigationView
-    private lateinit var binding: ActivityActivityListBinding
-    private lateinit var activityList: List<ActivityModel>
+    lateinit var presenter: ActivityGalleryListPresenter
+    private lateinit var binding: ActivityGalleryListBinding
     private lateinit var activityGalleryList: List<ActivityGalleryModel>
-    private lateinit var activityIntentLauncher : ActivityResultLauncher<Intent>
-    var fireStore: ActivityFireStore? = null
+    var gallery = ActivityGalleryModel()
+    private var fireStore: ActivityFireStore? = null
 
 
 
@@ -50,68 +42,41 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityActivityListBinding.inflate(layoutInflater)
+
+        binding = ActivityGalleryListBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
-        binding.toolbar.title = title
-        binding.toolbar.setTitleTextAppearance(this, R.style.toolbarFont)
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            binding.toolbar.title = "${user.email}"
-        }
-        setSupportActionBar(binding.toolbar)
-        presenter = ActivityListPresenter(this)
+
+        binding.toolbarAdd.title = title
+        binding.toolbarAdd.setTitleTextAppearance(this, R.style.toolbarFont)
+        setSupportActionBar(binding.toolbarAdd)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        presenter = ActivityGalleryListPresenter(this)
         app = application as MainApp
         val layoutManager = LinearLayoutManager(this)
-        //var position = activityList.size -1
-        binding.recyclerView.layoutManager = layoutManager
-       // binding.recyclerView.smoothScrollToPosition(position)
-        layoutManager.setStackFromEnd(true)
-        //binding.recyclerView.setLayoutManager(LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true))
-        binding.adder.setOnClickListener{
-            presenter.doAddActivity()
+        binding.recyclerViewGallery.layoutManager = layoutManager
+
+        val adapter = binding.recyclerViewGallery.adapter as? ActivityGalleryAdapter
+
+        binding.recyclerViewGallery.adapter?.notifyDataSetChanged()
+        binding.imageadder.setOnClickListener{
+            presenter.doAddImageActivity()
         }
 
 
-        GlobalScope.launch(Dispatchers.Main) {
-            activityList = presenter.getActivities()
-        }
+
+
         GlobalScope.launch(Dispatchers.Main) {
             activityGalleryList = presenter.getGalleries()
+
         }
-        loadActivities()
+
+        presenter.loadGalleries()
 
 
 
-        bottomNav = findViewById(R.id.bottomNav) as BottomNavigationView
-        bottomNav.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.item_home -> {
-                    true
-                }
-                R.id.item_schedule -> {
 
-                    presenter.doAddReminderActivity()
-                    true
-                }
-
-                R.id.item_share -> {
-                    presenter.doExport()
-                    true
-                }
-                R.id.item_gallery -> {
-
-                    presenter.doAddImageActivity()
-                    true}
-
-                R.id.item_logout -> {
-                    GlobalScope.launch(Dispatchers.IO) {
-                        presenter.doLogout()
-                    }
-                    true
-                }
-                else -> false
-            }
-        }
 
         binding.chipOptions.check(R.id.chip_option_all)
         binding.chipOptions.setOnCheckedChangeListener(object: ChipGroup.OnCheckedChangeListener {
@@ -123,22 +88,20 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
             }
         })
 
-
-             val swipeDeleteHandler = object : SwipeToDeleteCallback(this) {
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = binding.recyclerView.adapter as ActivityAdapter
-                var activity = activityList[viewHolder.adapterPosition]
+                val adapter = binding.recyclerViewGallery.adapter as ActivityGalleryAdapter
+                var gallery = activityGalleryList[viewHolder.adapterPosition]
                 adapter.removeAt(viewHolder.adapterPosition)
-                i("Deleting activity: $activity")
+                i("Deleting activity: $gallery")
                 GlobalScope.launch(Dispatchers.IO) {
-                    presenter.doDelete(activity)
+                    presenter.doDelete(gallery)
                 }
             }
         }
         val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
-        itemTouchDeleteHelper.attachToRecyclerView(binding.recyclerView)
+        itemTouchDeleteHelper.attachToRecyclerView(binding.recyclerViewGallery)
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -170,8 +133,11 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
 
 
         val searchItem: MenuItem = menu.findItem(R.id.search)
+
         val searchView: SearchView = searchItem.getActionView() as SearchView
         searchView.setQueryHint(getString(R.string.search_hint))
+
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 val checkedChip = binding.chipOptions.checkedChipId
@@ -192,37 +158,57 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
         return true
     }
 
-    override fun onActivityClick(activity: ActivityModel) {
-        presenter.doEditActivity(activity)
+    override fun onActivityGalleryClick(gallery: ActivityGalleryModel) {
+        presenter.doEditActivity(gallery)
     }
 
-    private fun loadActivities() {
-        GlobalScope.launch(Dispatchers.Main) {
-            showActivities(presenter.getActivities() as MutableList<ActivityModel>)
-        }
-    }
 
-    fun showActivities (activities: MutableList<ActivityModel>) {
-        binding.recyclerView.adapter = ActivityAdapter(activities, this)
-        binding.recyclerView.adapter?.notifyDataSetChanged()
-        if (activityList.isEmpty()) {
-            binding.recyclerView.visibility = View.GONE
+
+
+
+    fun showGalleries (galleries: MutableList<ActivityGalleryModel>) {
+
+        binding.recyclerViewGallery.adapter = ActivityGalleryAdapter(galleries, this)
+        binding.recyclerViewGallery.adapter?.notifyDataSetChanged()
+        if (activityGalleryList.isEmpty()) {
+            binding.recyclerViewGallery.visibility = View.GONE
             binding.noActivitiesFound.visibility = View.VISIBLE
         } else {
-            binding.recyclerView.visibility = View.VISIBLE
+            binding.recyclerViewGallery.visibility = View.VISIBLE
             binding.noActivitiesFound.visibility = View.GONE
         }
-        activityList = activities
+
+
+        activityGalleryList = galleries
     }
 
-
     override fun onResume() {
-        loadActivities()
-        binding.recyclerView.adapter?.notifyDataSetChanged()
-        i("recyclerView onResume")
-        bottomNav.setSelectedItemId(R.id.item_home)
+
+        presenter.loadGalleries()
+        binding.recyclerViewGallery.adapter?.notifyDataSetChanged()
+        i("recyclerViewGallery onResume")
         binding.chipOptions.check(R.id.chip_option_all)
         super.onResume()
     }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_cancel -> {
+                presenter.doCancel()
+            }
+            R.id.item_delete -> {
+                GlobalScope.launch(Dispatchers.IO) {
+                    presenter.doDelete(gallery)
+                }
+            }
+            android.R.id.home -> {
+                presenter.doHome()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
 
 }

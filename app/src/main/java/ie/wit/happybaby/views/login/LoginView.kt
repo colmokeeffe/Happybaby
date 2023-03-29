@@ -20,9 +20,7 @@ class LoginView : AppCompatActivity() {
         setContentView(binding.root)
         app = application as MainApp
         presenter = LoginPresenter(this)
-
         binding.progressBar.visibility = View.GONE
-
         binding.login.setOnClickListener {
             var username = binding.username.text.toString()
             var password = binding.password.text.toString()
@@ -33,10 +31,14 @@ class LoginView : AppCompatActivity() {
                 presenter.doLogin(username,password)
             }
         }
-
         binding.registerMessage.setOnClickListener {
             presenter.doRegister()
         }
+    }
+
+
+    fun hideProgress() {
+        binding.progressBar.visibility = View.GONE
     }
 
     fun showSnackBar(message: CharSequence){
@@ -46,9 +48,5 @@ class LoginView : AppCompatActivity() {
 
     fun showProgress() {
         binding.progressBar.visibility = View.VISIBLE
-    }
-
-    fun hideProgress() {
-        binding.progressBar.visibility = View.GONE
     }
 }

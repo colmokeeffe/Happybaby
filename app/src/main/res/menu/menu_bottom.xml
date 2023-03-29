@@ -8,18 +8,18 @@
         android:icon="@drawable/ic_baseline_home_24"
         app:showAsAction="always" />
     <item
-        android:id="@+id/item_map"
+        android:id="@+id/item_gallery"
         android:icon="@android:drawable/ic_menu_gallery"
         android:title="@string/menu_gallery"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/item_add"
+        android:id="@+id/item_schedule"
         android:icon="@android:drawable/ic_menu_my_calendar"
         android:title="@string/menu_addReminder"
         app:showAsAction="always" />
     <item
         android:id="@+id/item_share"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@android:drawable/ic_menu_upload"
         android:title="@string/menu_share"
         app:showAsAction="always" />
     <item

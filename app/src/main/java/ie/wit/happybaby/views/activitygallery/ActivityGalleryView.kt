@@ -1,5 +1,7 @@
-/*package ie.wit.happybaby.views.activitygallery
+package ie.wit.happybaby.views.activitygallery
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -7,8 +9,9 @@ import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ie.wit.happybaby.R
-import ie.wit.happybaby.databinding.ActivityActivityBinding
-import ie.wit.happybaby.models.ActivityModel
+import ie.wit.happybaby.adapters.ImageListener
+import ie.wit.happybaby.databinding.ActivityGalleryHappybabyBinding
+import ie.wit.happybaby.models.ActivityGalleryModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -16,44 +19,38 @@ import timber.log.Timber.i
 
 class ActivityGalleryView : AppCompatActivity() {
 
-    private lateinit var binding: ActivityActivityBinding
+    private lateinit var binding: ActivityGalleryHappybabyBinding
     lateinit var presenter: ActivityGalleryPresenter
-    var activity = ActivityModel()
+    var gallery = ActivityGalleryModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityActivityBinding.inflate(layoutInflater)
+        binding = ActivityGalleryHappybabyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbarAdd.title = title
+        binding.toolbarAdd.setTitleTextAppearance(this, R.style.toolbarFont)
         setSupportActionBar(binding.toolbarAdd)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-
         presenter = ActivityGalleryPresenter(this)
 
         i("Activity Activity started..")
 
-        binding.btnAdd.setOnClickListener() {
-            if (binding.activityLocation.text.toString().isEmpty()) {
-                binding.activityLocation.setError("Mandatory field")
+        binding.btnAddImage.setOnClickListener() {
+            if (binding.imageTitle.text.toString().isEmpty()) {
+                binding.imageTitle.setError("Mandatory field")
             }
-            if (binding.activityTitle.text.toString().isEmpty()) {
-                binding.activityTitle.setError("Mandatory field")
-            }
-            if (binding.activityTitle.text.toString().isEmpty() || binding.activityLocation.text.toString().isEmpty()) {
+            if (binding.imageTitle.text.toString().isEmpty()) {
                 Snackbar
                     .make(it, R.string.warning_enterTitle, Snackbar.LENGTH_LONG)
                     .show()
             } else {
                 GlobalScope.launch(Dispatchers.IO) {
                     presenter.doAddorUpdate(
-                        binding.activityLocation.text.toString(),
-                        binding.activityTitle.text.toString(),
-                        binding.activityDescription.text.toString(),
-                        binding.activityRating.rating,
-                        binding.activityCategory.checkedRadioButtonId,
-                        binding.checkboxPriority.isChecked
+                        binding.imageTitle.text.toString(),
+                        binding.imageDescription.text.toString(),
+                        binding.imageCategory.checkedRadioButtonId,
+                        binding.checkboxFavourite.isChecked
                     )
                 }
             }
@@ -61,40 +58,16 @@ class ActivityGalleryView : AppCompatActivity() {
 
         binding.chooseImage.setOnClickListener {
             presenter.cacheActivity(
-                binding.activityLocation.text.toString(),
-                binding.activityTitle.text.toString(),
-                binding.activityDescription.text.toString(),
-                binding.activityRating.rating,
-                binding.activityCategory.checkedRadioButtonId,
-                binding.checkboxPriority.isChecked
+                binding.imageTitle.text.toString(),
+                binding.imageDescription.text.toString(),
+                binding.imageCategory.checkedRadioButtonId,
+                binding.checkboxFavourite.isChecked
             )
             presenter.doSelectImage()
         }
-
-        binding.setActivityLocation.setOnClickListener {
-            presenter.cacheActivity(
-                binding.activityLocation.text.toString(),
-                binding.activityTitle.text.toString(),
-                binding.activityDescription.text.toString(),
-                binding.activityRating.rating,
-                binding.activityCategory.checkedRadioButtonId,
-                binding.checkboxPriority.isChecked
-            )
-            presenter.doSetLocation()
-        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_activity, menu)
-        val deleteMenu: MenuItem = menu.findItem(R.id.item_delete)
-        if (presenter.edit){
-            deleteMenu.setVisible(true)
-        }
-        else{
-            deleteMenu.setVisible(false)
-        }
-        return super.onCreateOptionsMenu(menu)
-    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -102,9 +75,16 @@ class ActivityGalleryView : AppCompatActivity() {
                 presenter.doCancel()
             }
             R.id.item_delete -> {
-                GlobalScope.launch(Dispatchers.IO) {
-                    presenter.doDelete()
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Are you sure?")
+                builder.setMessage("Do you want to delete this activity?")
+                builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+                    GlobalScope.launch(Dispatchers.IO) {
+                        presenter.doDelete()
+                    }
                 }
+                builder.setNegativeButton("No", { dialogInterface: DialogInterface, i: Int -> })
+                builder.show()
             }
             android.R.id.home -> {
                 presenter.doHome()
@@ -113,29 +93,44 @@ class ActivityGalleryView : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun showActivity(activity: ActivityModel) {
-        binding.activityTitle.setText(activity.title)
-        binding.activityDescription.setText(activity.description)
-        binding.activityLocation.setText(activity.location)
-        binding.activityRating.rating = activity.rating
-        binding.checkboxPriority.setChecked(activity.priority)
-        var categoryId = when(activity.category) {
-            "Poo" -> R.id.option_poo
-            "Feed" -> R.id.option_feed
-            else -> R.id.option_pee
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_activity, menu)
+        val deleteMenu: MenuItem = menu.findItem(R.id.item_delete)
+        val shareMenu: MenuItem = menu.findItem(R.id.item_share)
+        if (presenter.edit){
+            deleteMenu.setVisible(true)
+            shareMenu.setVisible(false)
         }
-        binding.activityCategory.check(categoryId)
-        if (activity.image != "") {
+        else{
+            deleteMenu.setVisible(false)
+            shareMenu.setVisible(false)
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    fun showActivity(gallery: ActivityGalleryModel) {
+        binding.imageTitle.setText(gallery.imagetitle)
+        binding.imageDescription.setText(gallery.imagedescription)
+        binding.checkboxFavourite.setChecked(gallery.favourite)
+        var categoryId = when(gallery.imagecategory) {
+            "newborn" -> R.id.option_newborn
+            "3-6m" -> R.id.option_threeToSix
+            "6-9m" -> R.id.option_sixToNine
+            else -> R.id.option_nineToTwelve
+        }
+        binding.imageCategory.check(categoryId)
+        if (gallery.image != "") {
         Picasso.get()
-            .load(activity.image)
+            .load(gallery.image)
             .into(binding.activityImage)
             binding.chooseImage.setText(R.string.button_changeImage)
         }
     }
 
     fun showEditView() {
-        binding.btnAdd.setText(R.string.menu_saveActivity)
-        binding.addPlacemarkHeader.setText("Update Activity")
+        binding.btnAddImage.setText(R.string.menu_saveImage)
+        binding.addActivityImage.setText(R.string.menu_updateImage)
     }
 
     fun updateImage(image: String){
@@ -148,4 +143,3 @@ class ActivityGalleryView : AppCompatActivity() {
 
     }
 
- */

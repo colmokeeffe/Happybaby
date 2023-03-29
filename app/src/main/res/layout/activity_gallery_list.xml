@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context="ie.wit.happybaby.views.activitylist.ActivityListView">
+    tools:context="ie.wit.happybaby.views.activitygallerylist.ActivityGalleryListView">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout3"
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
@@ -18,13 +18,11 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarAdd"
             android:layout_width="match_parent"
-            android:fontFamily="@font/handlee"
             android:layout_height="wrap_content"
-            app:titleTextColor="@color/colorPrimary">
-
-        </androidx.appcompat.widget.Toolbar>
+            android:fontFamily="@font/handlee"
+            app:titleTextColor="@color/colorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -35,59 +33,38 @@
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/timeline"
+        android:layout_below="@+id/gallery"
         android:layout_marginTop="?attr/actionBarSize"
         android:fillViewport="true"></ScrollView>
 
 
     <TextView
-        android:id="@+id/timeline"
-        android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:text="Activities Timeline"
-        android:fontFamily="@font/handlee"
-        android:textColor="@color/colorPrimary"
-        android:background="@color/colorPrimaryDark"
-        android:paddingBottom="8dp"
-        android:paddingTop="55dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_anchor="@+id/chip_options"
-        tools:text="Activities Timeline" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="540dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="45dp"
-        android:scrollbars="vertical"
-        app:reverseLayout="true"
-        app:stackFromEnd="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-    <LinearLayout
+        android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_marginTop="95dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="Milestones Gallery"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:fontFamily="@font/handlee"
+        android:textColor="@color/colorPrimary"
+        app:layout_anchor="@+id/chip_options" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollIndicators="left"
-            app:labelVisibilityMode="labeled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/menu_bottom" />
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewGallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="0dp"
+        android:scrollbars="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 
     <TextView
         android:id="@+id/noActivitiesFound"
@@ -100,7 +77,7 @@
         tools:text="No activities logged yet" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/adder"
+        android:id="@+id/imageadder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -110,23 +87,12 @@
         app:srcCompat="@android:drawable/ic_input_add"
         android:contentDescription="add" />
 
-    <HorizontalScrollView
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:scrollbars="none"
-       >
-        <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="50dp"
             android:background="@color/colorPrimaryDark"
             app:chipStrokeColor="@color/colorPrimaryDark"
             app:layout_anchor="@+id/chip_options"
@@ -135,62 +101,43 @@
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_option_pee"
+                android:id="@+id/chip_option_newborn"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment ="center"
-                android:text="@string/chip_option_pee"
+                android:text="@string/chip_option_newborn"
                 app:chipBackgroundColor="@color/teal_200" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_option_poo"
+                android:id="@+id/chip_option_threeToSix"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment ="center"
-                android:text="@string/chip_option_poo"
+                android:text="@string/chip_option_threeToSix"
                 app:chipBackgroundColor="@color/teal_200" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_option_feed"
+                android:id="@+id/chip_option_sixToNine"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment ="center"
-                android:text="@string/chip_option_feed"
+                android:text="@string/chip_option_sixToNine"
                 app:chipBackgroundColor="@color/teal_200" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_option_medication"
+                android:id="@+id/chip_option_nineToTwelve"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAlignment ="center"
-                android:text="@string/chip_option_medication"
+                android:text="@string/chip_option_nineToTwelve"
                 app:chipBackgroundColor="@color/teal_200"
                 app:chipStrokeColor="@color/colorAccent" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_option_exercise"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment ="center"
-                android:text="@string/chip_option_exercise"
-                app:chipBackgroundColor="@color/teal_200" />
-
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_option_priority"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAlignment ="center"
-                android:text="@string/chip_option_priority"
-                app:chipBackgroundColor="@color/teal_200" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_option_all"
@@ -198,12 +145,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment ="center"
-                android:text="@string/chip_option_all"
+                android:text="@string/chip_option_all_images"
                 app:chipBackgroundColor="@color/teal_200" />
-
-
         </com.google.android.material.chip.ChipGroup>
-        </LinearLayout>
-    </HorizontalScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

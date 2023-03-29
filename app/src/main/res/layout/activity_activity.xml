@@ -25,6 +25,7 @@
             android:id="@+id/toolbarAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/handlee"
             app:titleTextColor="@color/colorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,6 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:fontFamily="@font/handlee"
             android:background="@color/colorPrimaryDark"
             android:gravity="center"
             android:text="@string/add_activity_header"
@@ -66,7 +69,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:text="Date of Activity:"
+                    android:fontFamily="@font/handlee"
+                    android:background="@drawable/box"
+                    android:text="Please Select the Date of Activity:"
+                    android:textColor="@color/colorAccent"
                     android:textSize="20sp"
                     tools:ignore="MissingConstraints" />
 
@@ -98,7 +104,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:text="Time of Activity:"
+                    android:fontFamily="@font/handlee"
+                    android:background="@drawable/box"
+                    android:textColor="@color/colorAccent"
+                    android:text="Please Select the Time of Activity:"
                     android:textSize="20sp"
                     tools:ignore="MissingConstraints" />
 
@@ -106,8 +115,6 @@
                     android:id="@+id/timeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp"
                     tools:text="12:59pm"
@@ -115,20 +122,20 @@
 
                 <TextView
                     android:id="@+id/header"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="70dp"
+                    app:layout_constraintTop_toBottomOf="@+id/timeTextView"
                     android:gravity="center"
                     android:text="@string/activity_category_header"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:fontFamily="@font/handlee"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <HorizontalScrollView
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="10dp"
                     android:scrollbars="none"
                     >
                 <RadioGroup
@@ -147,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="true"
-                        android:text="@string/option_see" />
+                        android:text="@string/option_pee" />
 
                     <RadioButton
                         android:id="@+id/option_poo"
@@ -155,7 +162,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="false"
-                        android:text="@string/option_do" />
+                        android:text="@string/option_poo" />
 
                     <RadioButton
                         android:id="@+id/option_feed"
@@ -163,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="false"
-                        android:text="@string/option_eat" />
+                        android:text="@string/option_feed" />
 
 
                     <RadioButton
@@ -197,7 +204,7 @@
                     android:hint="@string/hint_activityDescription"
                     android:inputType="text"
                     app:counterEnabled="true"
-                    app:counterMaxLength="30"
+                    app:counterMaxLength="20"
                     android:padding="8dp"
                     android:textColor="@color/textColor"
                     android:textSize="14sp">
@@ -205,7 +212,8 @@
                         android:id="@+id/activityDescription"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:maxLength="30" />
+                        android:inputType="textCapSentences"
+                        android:maxLength="20" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -213,13 +221,12 @@
 
                 <TextView
                     android:id="@+id/rating_header"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
                     android:gravity="center"
                     android:text="@string/activity_rating_header"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:fontFamily="@font/handlee"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <RatingBar
                     android:id="@+id/activityRating"
@@ -237,20 +244,24 @@
                     android:id="@+id/checkbox_priority"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/handlee"
                     android:text="@string/checkbox_priority" />
 
                 <Button
                     android:id="@+id/btnAdd"
-                    android:layout_width="match_parent"
+                    android:layout_width="168dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:background="@color/colorSecondary"
+                    android:background="@drawable/rounded_corner"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:stateListAnimator="@null"
                     android:text="@string/button_addActivity"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/handlee"
+                    android:textSize="16sp"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16sp" />
+                    app:backgroundTint="@null"/>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

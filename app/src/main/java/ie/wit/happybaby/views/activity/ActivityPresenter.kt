@@ -1,22 +1,14 @@
 package ie.wit.happybaby.views.activity
 
 import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
 import ie.wit.happybaby.R
-import ie.wit.happybaby.databinding.ActivityActivityBinding
-
 import ie.wit.happybaby.main.MainApp
-
 import ie.wit.happybaby.models.ActivityModel
 
-import java.util.*
 
 class ActivityPresenter (private val view: ActivityView) {
 
     var activity = ActivityModel()
-    private lateinit var binding: ActivityActivityBinding
-    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
-
     var edit = false
     var app: MainApp = view.application as MainApp
     init {
@@ -26,6 +18,18 @@ class ActivityPresenter (private val view: ActivityView) {
             view.showActivity(activity)
             view.showEditView()
         }
+    }
+
+    fun doShare(description: String, selectedDate: String)
+    {
+        val intent= Intent()
+        intent.action= Intent.ACTION_SEND
+        intent.putExtra(
+            Intent.EXTRA_TEXT,"Activity Type: " + activity.category + "\nActivity Date: " + activity.selectedDate + "\nActivity Time: " + activity.selectedTime + "\nActivity Description: " + activity.description +  "\n\nRegards, Happy Baby "
+
+        )
+        intent.type="text/plain"
+        view.startActivity(Intent.createChooser(intent, "Share To:"))
     }
 
     suspend fun doAddorUpdate(selectedDate: String, selectedTime:String, description: String, rating: Float,category: Int, priority: Boolean) {
@@ -49,6 +53,8 @@ class ActivityPresenter (private val view: ActivityView) {
         }
         view.finish()
     }
+
+
 
     fun cacheActivity (selectedDate: String, selectedTime:String, description: String, rating: Float, category: Int, priority: Boolean) {
         activity.selectedDate = selectedDate
