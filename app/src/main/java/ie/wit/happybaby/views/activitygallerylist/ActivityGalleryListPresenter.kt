@@ -135,7 +135,9 @@ class ActivityGalleryListPresenter (private val view: ActivityGalleryListView) {
     fun loadGalleries() {
         GlobalScope.launch(Dispatchers.Main) {
             //fireStore!!.fetchGalleries {  }
+
             view.showGalleries(getGalleries() as MutableList<ActivityGalleryModel>)
+           
         }
     }
 

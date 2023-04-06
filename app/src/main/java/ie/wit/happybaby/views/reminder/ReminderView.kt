@@ -9,13 +9,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import ie.wit.happybaby.R
-import ie.wit.happybaby.databinding.ActivityGalleryHappybabyBinding
 import ie.wit.happybaby.databinding.ActivityMainBinding
 import ie.wit.happybaby.helpers.ReminderWorker
-import ie.wit.happybaby.views.activitygallery.ActivityGalleryPresenter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 import java.util.*
@@ -54,6 +49,8 @@ class ReminderView : AppCompatActivity() {
         val button = findViewById<Button>(R.id.setBtn)
         val datePicker = findViewById<DatePicker>(R.id.datePicker)
         val timePicker = findViewById<TimePicker>(R.id.timePicker)
+        val timeReminder = findViewById<TextView>(R.id.timeReminder)
+        val dateReminder = findViewById<TextView>(R.id.dateReminder)
         val today = Calendar.getInstance()
 
         //Initialize of datePicker using the current day as starting parameters and then
@@ -64,13 +61,23 @@ class ReminderView : AppCompatActivity() {
             chosenYear = year
             chosenMonth = month
             chosenDay = day
+
+            val userSelectedDateString = String.format("%02d/%02d/%02d", chosenDay, chosenMonth, chosenYear)
+            dateReminder.setText(userSelectedDateString)
         }
+
+
+
         //Add the Listener to gain access to user selection in the TimePicker and
         //then assign the selected values to the variables created above
         timePicker.setOnTimeChangedListener { _, hour, minute ->
             chosenHour = hour
             chosenMin  = minute
+
+            val userSelectedTimeString = String.format("%02d:%02d", chosenHour, chosenMin)
+            timeReminder.setText(userSelectedTimeString)
         }
+
 
         //Add the Listener to listen to click events and execute the code to setNotification
         button.setOnClickListener {
@@ -78,6 +85,8 @@ class ReminderView : AppCompatActivity() {
             //Get the DateTime the user selected
             val userSelectedDateTime =Calendar.getInstance()
             userSelectedDateTime.set(chosenYear, chosenMonth, chosenDay, chosenHour , chosenMin)
+
+
 
             //Next get DateTime for today
             val todayDateTime = Calendar.getInstance()
@@ -91,7 +100,10 @@ class ReminderView : AppCompatActivity() {
             //
             Toast.makeText(this, "Reminder set", Toast.LENGTH_SHORT).show()
         }
+
     }
+
+
 
     // Private Function to create the OneTimeWorkRequest
     private fun createWorkRequest(message: String,timeDelayInSeconds: Long  ) {

@@ -65,6 +65,10 @@
     <string name="chip_option_all_images">All</string>
     <string name="checkbox_priority">High Priority</string>
     <string name="checkbox_favourite">Favourite Image</string>
+    <string name="activity_date_text">Please Select the Date of Activity:</string>
+    <string name="activity_time_text">Please Select the Time of Activity:</string>
+    <string name="reminder_date_text">Please Select the Date of Reminder:</string>
+    <string name="reminder_time_text">Please Select the Time of Reminder:</string>
     <string name="switchLayout">Switch</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>

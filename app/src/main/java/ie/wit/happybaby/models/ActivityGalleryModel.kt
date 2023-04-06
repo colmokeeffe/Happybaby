@@ -9,8 +9,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity
 data class ActivityGalleryModel(@PrimaryKey(autoGenerate = true)
-                         var id: Long = 0,
-                                var fbId: String = "",
+                         var galleryid: Long = 0,
+                                var fbGalleryId: String = "",
                                 var image: String = "",
                                 var favourite: Boolean = false,
                                 var imagetitle: String = "",

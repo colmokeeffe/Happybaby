@@ -102,6 +102,30 @@
                 android:layout_height="wrap_content"
                 android:datePickerMode="calendar" />
 
+            <TextView
+                    android:id="@+id/dateTextViewDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:fontFamily="@font/handlee"
+                    android:background="@drawable/box"
+                    android:text="@string/reminder_date_text"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    tools:ignore="MissingConstraints" />
+
+            <TextView
+                    android:id="@+id/dateReminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    tools:text="01/01/2023"
+                    tools:ignore="MissingConstraints" />
+
             <TimePicker
                 android:id="@+id/timePicker"
                 android:layout_width="wrap_content"
@@ -110,6 +134,29 @@
                 android:layout_marginTop="0dp"
                 android:theme="@style/MyTimePicker"
                 android:timePickerMode="spinner" />
+
+            <TextView
+                    android:id="@+id/timeTextViewDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:fontFamily="@font/handlee"
+                    android:background="@drawable/box"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/reminder_time_text"
+                    android:textSize="20sp"
+                    tools:ignore="MissingConstraints" />
+
+            <TextView
+                    android:id="@+id/timeReminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    tools:text="12:59pm"
+                    tools:ignore="MissingConstraints" />
+
 
             <Button
                 android:id="@+id/setBtn"

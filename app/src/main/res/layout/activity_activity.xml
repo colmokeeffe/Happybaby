@@ -71,7 +71,7 @@
                     android:layout_alignParentTop="true"
                     android:fontFamily="@font/handlee"
                     android:background="@drawable/box"
-                    android:text="Please Select the Date of Activity:"
+                    android:text="@string/activity_date_text"
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp"
                     tools:ignore="MissingConstraints" />
@@ -107,7 +107,7 @@
                     android:fontFamily="@font/handlee"
                     android:background="@drawable/box"
                     android:textColor="@color/colorAccent"
-                    android:text="Please Select the Time of Activity:"
+                    android:text="@string/activity_time_text"
                     android:textSize="20sp"
                     tools:ignore="MissingConstraints" />
 

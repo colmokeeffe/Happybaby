@@ -42,6 +42,7 @@ class ActivityListPresenter(private val view: ActivityListView) {
             fireStore = app.activities as ActivityFireStore
         }
 
+
     }
 
     fun doAddActivity() {

@@ -18,7 +18,9 @@ fun exportToCSV(filename: String, path: File?, header: String, activities: Mutab
             FileOutputStream(fileOut).use {
                 it.write(header.toByteArray())
                 for (activity in activities) {
-                    it.write("${activity.selectedDate},${activity.selectedTime},${activity.category},${activity.description},${activity.rating}\n".toByteArray())
+                    it.write(("${activity.selectedDate},${activity.selectedTime}," +
+                            "${activity.category},${activity.description}," +
+                            "${activity.rating}\n").toByteArray())
                 }
             }
         }

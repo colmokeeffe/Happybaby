@@ -21,7 +21,7 @@ interface ActivityDao {
     @Query("select * from ActivityModel where id = :activityId")
     suspend fun findById(activityId: Long): ActivityModel
 
-    @Query("select * from ActivityGalleryModel where id = :activityId")
+    @Query("select * from ActivityGalleryModel where galleryid = :activityId")
     suspend fun findByGalleryId(activityId: Long): ActivityGalleryModel
 
     @Query("select * from ActivityModel where category = :activityCategory")

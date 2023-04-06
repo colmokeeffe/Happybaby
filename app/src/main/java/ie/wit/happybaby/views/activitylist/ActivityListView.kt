@@ -61,10 +61,12 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
         setSupportActionBar(binding.toolbar)
         presenter = ActivityListPresenter(this)
         app = application as MainApp
+
         val layoutManager = LinearLayoutManager(this)
         //var position = activityList.size -1
         binding.recyclerView.layoutManager = layoutManager
-       // binding.recyclerView.smoothScrollToPosition(position)
+       layoutManager.setReverseLayout(true)
+       //binding.recyclerView.smoothScrollToPosition(position)
         layoutManager.setStackFromEnd(true)
         //binding.recyclerView.setLayoutManager(LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true))
         binding.adder.setOnClickListener{
@@ -75,9 +77,7 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
         GlobalScope.launch(Dispatchers.Main) {
             activityList = presenter.getActivities()
         }
-        GlobalScope.launch(Dispatchers.Main) {
-            activityGalleryList = presenter.getGalleries()
-        }
+
         loadActivities()
 
 
@@ -177,6 +177,7 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
                 val checkedChip = binding.chipOptions.checkedChipId
                 GlobalScope.launch(Dispatchers.Main) {
                     presenter.doSearch(query, checkedChip)
+                    Collections.reverse(activityList)
                 }
                 return false
             }
@@ -185,6 +186,7 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
                 val checkedChip = binding.chipOptions.checkedChipId
                 GlobalScope.launch(Dispatchers.Main) {
                     presenter.doSearch(msg, checkedChip)
+                    Collections.reverse(activityList)
                 }
                 return false
             }
@@ -198,11 +200,13 @@ class ActivityListView : AppCompatActivity(), ActivityListener {
 
     private fun loadActivities() {
         GlobalScope.launch(Dispatchers.Main) {
+            Collections.reverse(activityList)
             showActivities(presenter.getActivities() as MutableList<ActivityModel>)
         }
     }
 
     fun showActivities (activities: MutableList<ActivityModel>) {
+        Collections.reverse(activityList)
         binding.recyclerView.adapter = ActivityAdapter(activities, this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
         if (activityList.isEmpty()) {

@@ -78,6 +78,7 @@ class ActivityGalleryListView: AppCompatActivity(), ImageListener {
 
 
 
+
         binding.chipOptions.check(R.id.chip_option_all)
         binding.chipOptions.setOnCheckedChangeListener(object: ChipGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(chipGroup: ChipGroup, id: Int) {
@@ -172,7 +173,7 @@ class ActivityGalleryListView: AppCompatActivity(), ImageListener {
         binding.recyclerViewGallery.adapter?.notifyDataSetChanged()
         if (activityGalleryList.isEmpty()) {
             binding.recyclerViewGallery.visibility = View.GONE
-            binding.noActivitiesFound.visibility = View.VISIBLE
+            binding.noActivitiesFound.visibility = View.GONE
         } else {
             binding.recyclerViewGallery.visibility = View.VISIBLE
             binding.noActivitiesFound.visibility = View.GONE

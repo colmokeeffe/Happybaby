@@ -37,7 +37,7 @@ class ActivityFireStore(val context: android.content.Context) : ActivityStore {
     }
 
     override suspend fun findActivityGalleryById(id: Long): ActivityGalleryModel? {
-        val foundGalleryActivity: ActivityGalleryModel? = galleries.find { p -> p.id == id }
+        val foundGalleryActivity: ActivityGalleryModel? = galleries.find { p -> p.galleryid == id }
         return foundGalleryActivity
     }
 
@@ -113,7 +113,7 @@ class ActivityFireStore(val context: android.content.Context) : ActivityStore {
         val key = db.child("users").child(userId).child("activities").push().key
         key?.let {
             activity.fbId = key
-            activity.id = generateRandomId() //note that this is also needed as used for marker on map of all placemarks
+            activity.id = generateRandomId()
             activities.add(activity)
             db.child("users").child(userId).child("activities").child(key).setValue(activity)
         }
@@ -122,10 +122,10 @@ class ActivityFireStore(val context: android.content.Context) : ActivityStore {
     override suspend fun createGallery(gallery: ActivityGalleryModel) {
         val key = db.child("users").child(userId).child("galleries").push().key
         key?.let {
-            gallery.fbId = key
-            gallery.id = generateRandomId() //note that this is also needed as used for marker on map of all placemarks
+            gallery.fbGalleryId = key
+            gallery.galleryid = generateRandomId()
             galleries.add(gallery)
-            db.child("users").child(userId).child("activities").child(key).setValue(gallery)
+            db.child("users").child(userId).child("galleries").child(key).setValue(gallery)
             updateImage(gallery)
         }
     }
@@ -149,7 +149,7 @@ class ActivityFireStore(val context: android.content.Context) : ActivityStore {
     }
 
     override suspend fun updateGallery(gallery: ActivityGalleryModel) {
-        var foundGalleryActivity: ActivityGalleryModel? = galleries.find { p -> p.fbId == gallery.fbId }
+        var foundGalleryActivity: ActivityGalleryModel? = galleries.find { p -> p.fbGalleryId == gallery.fbGalleryId }
         if (foundGalleryActivity != null) {
             foundGalleryActivity.image = gallery.image
             foundGalleryActivity.imagetitle = gallery.imagetitle
@@ -157,7 +157,7 @@ class ActivityFireStore(val context: android.content.Context) : ActivityStore {
             foundGalleryActivity.imagedescription = gallery.imagedescription
             foundGalleryActivity.favourite = gallery.favourite
         }
-        db.child("users").child(userId).child("galleries").child(gallery.fbId).setValue(gallery)
+        db.child("users").child(userId).child("galleries").child(gallery.fbGalleryId).setValue(gallery)
         if(gallery.image.isNotEmpty()){
             updateImage(gallery)
     }}
@@ -168,7 +168,7 @@ class ActivityFireStore(val context: android.content.Context) : ActivityStore {
     }
 
     override suspend fun deleteGallery(gallery: ActivityGalleryModel) {
-        db.child("users").child(userId).child("galleries").child(gallery.fbId).removeValue()
+        db.child("users").child(userId).child("galleries").child(gallery.fbGalleryId).removeValue()
         galleries.remove(gallery)
     }
 
@@ -196,7 +196,7 @@ class ActivityFireStore(val context: android.content.Context) : ActivityStore {
         }
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         db = FirebaseDatabase.getInstance().reference
-        st = FirebaseStorage.getInstance().reference
+       st = FirebaseStorage.getInstance().reference
         activities.clear()
         db.child("users").child(userId).child("activities")
             .addListenerForSingleValueEvent(valueEventListener)
@@ -244,7 +244,7 @@ class ActivityFireStore(val context: android.content.Context) : ActivityStore {
                 }.addOnSuccessListener { taskSnapshot ->
                     taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
                         gallery.image = it.toString()
-                        db.child("users").child(userId).child("galleries").child(gallery.fbId).setValue(gallery)
+                        db.child("users").child(userId).child("galleries").child(gallery.fbGalleryId).setValue(gallery)
                     }
                 }
             }

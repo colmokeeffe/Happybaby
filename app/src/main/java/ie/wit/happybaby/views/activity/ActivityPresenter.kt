@@ -25,14 +25,19 @@ class ActivityPresenter (private val view: ActivityView) {
         val intent= Intent()
         intent.action= Intent.ACTION_SEND
         intent.putExtra(
-            Intent.EXTRA_TEXT,"Activity Type: " + activity.category + "\nActivity Date: " + activity.selectedDate + "\nActivity Time: " + activity.selectedTime + "\nActivity Description: " + activity.description +  "\n\nRegards, Happy Baby "
-
+            Intent.EXTRA_TEXT,"Activity Type: " + activity.category
+                    + "\nActivity Date: " + activity.selectedDate
+                    + "\nActivity Time: " + activity.selectedTime
+                    + "\nActivity Description: " + activity.description
+                    + "\n\nRegards, Happy Baby "
         )
         intent.type="text/plain"
         view.startActivity(Intent.createChooser(intent, "Share To:"))
     }
 
-    suspend fun doAddorUpdate(selectedDate: String, selectedTime:String, description: String, rating: Float,category: Int, priority: Boolean) {
+    suspend fun doAddorUpdate(selectedDate: String, selectedTime:String,
+                              description: String, rating: Float,category: Int,
+                              priority: Boolean) {
         activity.selectedDate = selectedDate
         activity.selectedTime = selectedTime
         activity.description = description
